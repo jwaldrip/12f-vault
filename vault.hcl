@@ -1,6 +1,7 @@
 backend "etcd" {
   address = "ETCD_ADDRESS"
   path = "vault/"
+  advertise_addr = "ETCD_ADVERTISE"
 }
 
 listener "tcp" {

@@ -2,7 +2,7 @@
 config_file="/vault/vault.hcl"
 
 # if the following keys are not set - let vault set the defaults!
-keys=( "ETCD_ADDRESS" "VAULT_ADDRESS" )
+keys=( "ETCD_ADDRESS" "VAULT_ADDRESS" "ETCD_ADVERTISE")
 
 for key in "${keys[@]}"
 do
