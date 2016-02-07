@@ -6,10 +6,14 @@ docker container for vault with builtin etcd configuration.
 
 ```bash
 $ docker pull gici/vault-coreos
-$ docker run -d gici/vault-coreos \
+$ docker run -d gici/vault-coreos \              
+             -e ETCD_ADDRESS="http://${COREOS_PRIVATE_IPV4}:4001"
+             -e ETCD_ADVERTISE="http://${COREOS_PRIVATE_IPV4}:8200"
              -e VAULT_ADDRESS="http://0.0.0.0:8200"
-             -p 8200:8200
+             -p 8200:8200 # specific binding used for advertisement
+             --cap-add IPC_LOCK # this is important!
 ```
+
 ## basic configuration
 
 ```hcl
