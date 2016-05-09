@@ -7,14 +7,15 @@ After=docker.service
 
 [Service]
 ExecStartPre=/usr/bin/docker pull brandfolder/vault-coreos
-ExecStart=/usr/bin/docker run -d brandfolder/vault-coreos \              
+ExecStart=/usr/bin/docker run \
   --name %p \
   -e SERVICE_NAME=vault \
-  -e ETCD_ADDRESS="http://${COREOS_PRIVATE_IPV4}:4001" \
-  -e ETCD_ADVERTISE="http://${COREOS_PRIVATE_IPV4}:8200" \
+  -e ETCD_ADDRESS="http://$COREOS_PRIVATE_IPV4:4001" \
+  -e ETCD_ADVERTISE="http://$COREOS_PRIVATE_IPV4:8200" \
   -e VAULT_ADDRESS="http://0.0.0.0:8200" \
   -p 8200:8200 \
-  --cap-add IPC_LOCK
-  
+  --cap-add IPC_LOCK \
+  brandfolder/vault-coreos
+
 [X-Fleet]
 Conflicts=%p@*.service
