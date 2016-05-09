@@ -10,6 +10,8 @@ chmod 755 /entrypoint/bootstrap.sh
 
 ENTRYPOINT [ "/entrypoint/bootstrap.sh" ]
 
+ENV LOG_LEVEL info
+
 RUN mkdir /vault
 ADD vault.hcl run.sh /vault/
 

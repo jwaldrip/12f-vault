@@ -39,4 +39,4 @@ sed -i '/^$/d' $config_file
 echo "# CONFIG #"
 cat $config_file
 echo "# END CONFIG #"
-exec /usr/local/bin/vault server -config $config_file
+exec /usr/local/bin/vault server -config $config_file -log-level $VAULT_LOG_LEVEL
