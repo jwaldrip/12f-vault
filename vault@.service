@@ -1,5 +1,5 @@
 [Unit]
-description=Storage of secrets
+Description=Storage of secrets
 Requires=docker.service
 Requires=etcd.service
 After=docker.service
