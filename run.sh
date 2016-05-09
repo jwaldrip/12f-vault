@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash +x
 config_file="/vault/vault.hcl"
 
 # if the following keys are not set - let vault set the defaults!
@@ -39,4 +39,4 @@ sed -i '/^$/d' $config_file
 echo "# CONFIG #"
 cat $config_file
 echo "# END CONFIG #"
-/usr/local/bin/vault server -config $config_file
+exec /usr/local/bin/vault server -config $config_file
