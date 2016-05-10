@@ -38,7 +38,11 @@ done
 if [ "$ETCD_ANNOUNCE" = "1" ] ; then
   while true ; do
     key = `echo "$ETCD_ADVERTISE_ADDR" | base64`
-    (VAULT_ADDR=$ETCD_ADVERTISE_ADDR vault status &> /dev/null && curl "$ETCD_ADDRESS/v2/keys/$ETCD_ANNOUNCE_PATH/$key" -XPUT -d ttl=10 -d value="$ETCD_ADVERTISE_ADDR") || true
+    (
+      VAULT_ADDR=$ETCD_ADVERTISE_ADDR vault status &> /dev/null &&
+      curl -sSL "$ETCD_ADDRESS/v2/keys/$ETCD_ANNOUNCE_PATH/$key" -XPUT -d ttl=10 -d value="$ETCD_ADVERTISE_ADDR" > /dev/null &&
+      echo "announced '$ETCD_ANNOUNCE_PATH/$key' to etcd!"
+    ) || true
     sleep 5
   done &
 fi
