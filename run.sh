@@ -1,7 +1,7 @@
 #!/bin/bash +x
 config_file="/vault/vault.hcl"
 ETCD_ANNOUNCE=${ETCD_ANNOUNCE-1}
-ETCD_ANNOUNCE_PATH=${ETCD_ANNOUNCE_PATH-/unsealed-vaults}
+ETCD_ANNOUNCE_PATH=${ETCD_ANNOUNCE_PATH-"vaults-unsealed"}
 
 # if the following keys are not set - let vault set the defaults!
 keys=(
