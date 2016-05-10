@@ -1,6 +1,6 @@
 #!/bin/bash +x
 config_file="/vault/vault.hcl"
-ETCD_ANNOUNCE=${ETCD_ANNOUNCE-true}
+ETCD_ANNOUNCE=${ETCD_ANNOUNCE-1}
 ETCD_ANNOUNCE_PATH=${ETCD_ANNOUNCE_PATH-/unsealed-vaults}
 
 # if the following keys are not set - let vault set the defaults!
@@ -37,7 +37,7 @@ for key in "${keys[@]}" ; do
  fi
 done
 
-if [ "$ETCD_ANNOUNCE" = "true" ] ; then
+if [ "$ETCD_ANNOUNCE" = "1" ] ; then
   while true ; do
     (vault status &> /dev/null && etcdctl --endpoint "$ETCD_ADDRESS" set "$ETCD_ANNOUNCE_PATH/$ETCD_ADVERTISE_ADDR" --ttl 10) || true
     sleep 5
