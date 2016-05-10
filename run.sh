@@ -39,7 +39,7 @@ done
 
 if [ "$ETCD_ANNOUNCE" = "1" ] ; then
   while true ; do
-    (vault status &> /dev/null && etcdctl --endpoint "$ETCD_ADDRESS" set "$ETCD_ANNOUNCE_PATH/$ETCD_ADVERTISE_ADDR" --ttl 10) || true
+    (VAULT_ADDR=$ETCD_ADVERTISE_ADDR vault status &> /dev/null && etcdctl --endpoint "$ETCD_ADDRESS" set "$ETCD_ANNOUNCE_PATH/$ETCD_ADVERTISE_ADDR" --ttl 10) || true
     sleep 5
   done &
 fi
