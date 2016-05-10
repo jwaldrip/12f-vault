@@ -1,12 +1,14 @@
 FROM cgswong/vault:latest
 MAINTAINER Oded Lazar <oded@senexx.com>
 
-# create a stub entrypoint
+# install curl
+RUN apk-install --no-cache curl
 
+# create a stub entrypoint
 RUN mkdir /entrypoint && \
-echo '#!/bin/bash'  >> /entrypoint/bootstrap.sh && \
-echo 'exec "$@"' >> /entrypoint/bootstrap.sh && \
-chmod 755 /entrypoint/bootstrap.sh
+  echo '#!/bin/bash'  >> /entrypoint/bootstrap.sh && \
+  echo 'exec "$@"' >> /entrypoint/bootstrap.sh && \
+  chmod 755 /entrypoint/bootstrap.sh
 
 ENTRYPOINT [ "/entrypoint/bootstrap.sh" ]
 
