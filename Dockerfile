@@ -13,6 +13,8 @@ RUN mkdir /entrypoint && \
 ENTRYPOINT [ "/entrypoint/bootstrap.sh" ]
 
 ENV VAULT_LOG_LEVEL info
+ENV ETCD_ANNOUNCE_PATH vaults-unsealed
+ENV ETCD_ANNOUNCE 1
 
 RUN mkdir /vault
 ADD vault.hcl run.sh /vault/

@@ -1,7 +1,5 @@
 #!/bin/bash +x
 config_file="/vault/vault.hcl"
-ETCD_ANNOUNCE=${ETCD_ANNOUNCE-1}
-ETCD_ANNOUNCE_PATH=${ETCD_ANNOUNCE_PATH-"vaults-unsealed"}
 
 # if the following keys are not set - let vault set the defaults!
 keys=(
@@ -39,7 +37,8 @@ done
 
 if [ "$ETCD_ANNOUNCE" = "1" ] ; then
   while true ; do
-    (VAULT_ADDR=$ETCD_ADVERTISE_ADDR vault status &> /dev/null && curl "$ETCD_ADDRESS/v2/keys/$ETCD_ANNOUNCE_PATH/$ETCD_ADVERTISE_ADDR" -XPUT -d ttl=10) || true
+    key = `echo "$ETCD_ADVERTISE_ADDR" | base64`
+    (VAULT_ADDR=$ETCD_ADVERTISE_ADDR vault status &> /dev/null && curl "$ETCD_ADDRESS/v2/keys/$ETCD_ANNOUNCE_PATH/$key" -XPUT -d ttl=10 -d value="$ETCD_ADVERTISE_ADDR") || true
     sleep 5
   done &
 fi
