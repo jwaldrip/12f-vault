@@ -1,5 +1,7 @@
 #!/bin/bash +x
 config_file="/vault/vault.hcl"
+ETCD_ANNOUNCE=${ETCD_ANNOUNCE-true}
+ETCD_ANNOUNCE_PATH=${ETCD_ANNOUNCE_PATH-/unsealed-vaults}
 
 # if the following keys are not set - let vault set the defaults!
 keys=(
@@ -26,17 +28,24 @@ keys=(
   "VAULT_MAX_LEASE_TTL"
 )
 
-for key in "${keys[@]}"
-do
-   val=`eval echo \\$$key` # evaluate the value of the key
-   if [ -z "$val" ]; then
-      sed -i "/$key/d" $config_file
-   else
-     sed -i "s#$key#$val#g" $config_file
-   fi
+for key in "${keys[@]}" ; do
+ val=`eval echo \\$$key` # evaluate the value of the key
+ if [ -z "$val" ]; then
+    sed -i "/$key/d" $config_file
+ else
+   sed -i "s#$key#$val#g" $config_file
+ fi
 done
+
+if [ "$ETCD_ANNOUNCE" = "true" ] ; then
+  while true ; do
+    (vault status &> /dev/null && etcdctl --endpoint "$ETCD_ADDRESS" set "$ETCD_ANNOUNCE_PATH/$ETCD_ADVERTISE_ADDR" --ttl 10) || true
+    sleep 5
+  done &
+fi
+
 sed -i '/^$/d' $config_file
 echo "# CONFIG #"
 cat $config_file
 echo "# END CONFIG #"
-exec /usr/local/bin/vault server -config $config_file -log-level $VAULT_LOG_LEVEL
+/usr/local/bin/vault server -config $config_file -log-level $VAULT_LOG_LEVEL
