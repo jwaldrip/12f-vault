@@ -15,7 +15,7 @@ After=etcd2.service
 [Service]
 EnvironmentFile=/etc/environment
 ExecStartPre=-/usr/bin/docker rm -f %p
-ExecStartPre=/usr/bin/docker pull brandfolder/vault-coreos
+ExecStartPre=/usr/bin/docker pull jwaldrip/vault-coreos
 ExecStart=/usr/bin/docker run \
   --rm \
   --name %p \
@@ -26,7 +26,7 @@ ExecStart=/usr/bin/docker run \
   -e VAULT_TLS_DISABLE=1 \
   -p 8200:8200 \
   --cap-add IPC_LOCK \
-  brandfolder/vault-coreos
+  jwaldrip/vault-coreos
 Restart=always
 RestartSec=5
 
