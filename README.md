@@ -1,11 +1,11 @@
-# Vault-CoreOS
+# 12 Factor Vault
 
-Vault, designed for Core-OS to be run via systemd / fleet, and configured with an etcd backend.
+Vault, designed for 12 factor configuration inside a docker container.
 
 ## Running
 
 Vault can be run with docker and configured with environment variables see
-[SERVER_CONFIG](./SERVER_CONFIG.md) for reference.
+[server config](./SERVER_CONFIG.md) for reference.
 
 The default command is `server` and will be passed the generated config.
 
