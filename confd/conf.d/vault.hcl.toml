@@ -3,6 +3,60 @@ src = "vault.hcl.tmpl"
 dest = "/usr/share/vault.hcl"
 prefix = "vault"
 keys = [
+  # HA Backend
+  "/ha/backend",
+
+  # HA Backend
+  "/ha/redirect/addr",
+  "/ha/cluster/addr",
+  "/ha/disable/clustering",
+
+  # Consul Backend
+  "/ha/backend/consul/path",
+  "/ha/backend/consul/address",
+  "/ha/backend/consul/scheme",
+  "/ha/backend/consul/check/timeout",
+  "/ha/backend/consul/disable/registration",
+  "/ha/backend/consul/service",
+  "/ha/backend/consul/service/tags",
+  "/ha/backend/consul/token",
+  "/ha/backend/consul/max/parallel",
+  "/ha/backend/consul/tls/skip/verify",
+  "/ha/backend/consul/tls/min/version",
+  "/ha/backend/consul/tls/ca/file",
+  "/ha/backend/consul/tls/cert/file",
+  "/ha/backend/consul/tls/key/file",
+
+  # Etcd Backend
+  "/ha/backend/etcd/path",
+  "/ha/backend/etcd/address",
+  "/ha/backend/etcd/sync",
+  "/ha/backend/etcd/username",
+  "/ha/backend/etcd/password",
+  "/ha/backend/etcd/password",
+  "/ha/backend/etcd/tls/ca/file",
+  "/ha/backend/etcd/tls/cert/file",
+  "/ha/backend/etcd/tls/key/file",
+
+  # Zookeeper backend
+  "/ha/backend/zookeeper/path",
+  "/ha/backend/zookeeper/address",
+  "/ha/backend/zookeeper/auth/info",
+  "/ha/backend/zookeeper/znode/owner",
+
+  # Dynamodb backend
+  "/ha/backend/dynamodb/table",
+  "/ha/backend/dynamodb/read/capacity",
+  "/ha/backend/dynamodb/write/capacity",
+  "/ha/backend/dynamodb/access/key",
+  "/ha/backend/dynamodb/secret/key",
+  "/ha/backend/dynamodb/session/token",
+  "/ha/backend/dynamodb/endpoint",
+  "/ha/backend/dynamodb/region",
+  "/ha/backend/dynamodb/max/parallel",
+  "/ha/backend/dynamodb/ha/enabled",
+  "/ha/backend/dynamodb/recovery/mode",
+
   # Backend
   "/backend",
 

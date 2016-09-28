@@ -1,0 +1,40 @@
+version: '2'
+services:
+  vault-client:
+    build: .
+    links:
+      - vault-server-a
+    environment:
+      VAULT_ADDR: http://vault-server-a:8200
+    command: status
+  vault-server-a: &vault
+    build: .
+    environment:
+      VAULT_BACKEND: etcd
+      VAULT_LISTENER_TCP_TLS_DISABLE: "true"
+      VAULT_BACKEND_ETCD_ADDRESS: http://etcd:2379
+      VAULT_BACKEND_ETCD_SYNC: "false"
+      VAULT_DISABLE_CLUSTERING: "false"
+    links:
+      - etcd
+    cap_add:
+      - IPC_LOCK
+    ports:
+      - 8200:8200
+      - 8201:8201
+  vault-server-b:
+    <<: *vault
+    ports:
+      - 8202:8200
+      - 8203:8201
+  etcd:
+    environment:
+      ETCD_ADVERTISE_CLIENT_URLS: http://etcd:2379
+      ETCD_INITIAL_ADVERTISE_PEER_URLS: http://etcd:2380
+      ETCD_LISTEN_CLIENT_URLS: http://0.0.0.0:2379
+      ETCD_LISTEN_PEER_URLS: http://0.0.0.0:2380
+      ETCD_INITIAL_CLUSTER_TOKEN: local-etcd
+      ETCD_INITIAL_CLUSTER: etcd0=http://etcd:2380
+      ETCD_INITIAL_CLUSTER_STATE: new
+      ETCD_NAME: etcd0
+    image: quay.io/coreos/etcd:v2.3.7

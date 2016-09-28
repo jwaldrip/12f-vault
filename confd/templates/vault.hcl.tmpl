@@ -1,3 +1,57 @@
+{{if or (exists "/ha/backend")}}
+backend "{{getv "/ha/backend"}}" {
+  {{if exists "/ha/redirect/addr"}}redirect_addr = "{{getv "/redirect/addr"}}"{{end}}
+  {{if exists "/ha/cluster/addr"}}cluster_addr = "{{getv "/cluster/addr"}}"{{end}}
+  {{if exists "/ha/disable/clustering"}}disable_clustering = "{{getv "/disable/clustering"}}"{{end}}
+
+  {{if eq (getv "/ha/backend") "consul"}}# Consul Backend Settings
+  {{if exists "/ha/backend/consul/path"}}path = "{{getv "/ha/backend/consul/path"}}"{{end}}
+  {{if exists "/ha/backend/consul/address"}}address = "{{getv "/ha/backend/consul/address"}}"{{end}}
+  {{if exists "/ha/backend/consul/scheme"}}scheme = "{{getv "/ha/backend/consul/scheme"}}"{{end}}
+  {{if exists "/ha/backend/consul/check/timeout"}}check_timeout = "{{getv "/ha/backend/consul/check/timeout"}}"{{end}}
+  {{if exists "/ha/backend/consul/disable/registration"}}disable_registration = "{{getv "/ha/backend/consul/disable/registration"}}"{{end}}
+  {{if exists "/ha/backend/consul/service"}}service = "{{getv "/ha/backend/consul/service"}}"{{end}}
+  {{if exists "/ha/backend/consul/service/tags"}}service_tags = "{{getv "/ha/backend/consul/service/tags"}}"{{end}}
+  {{if exists "/ha/backend/consul/token"}}token = "{{getv "/ha/backend/consul/token"}}"{{end}}
+  {{if exists "/ha/backend/consul/max/parallel"}}max_parallel = "{{getv "/ha/backend/consul/max/parallel"}}"{{end}}
+  {{if exists "/ha/backend/consul/tls/skip/verify"}}tls_skip_verify = "{{getv "/ha/backend/consul/tls/skip/verify"}}"{{end}}
+  {{if exists "/ha/backend/consul/tls/min/version"}}tls_min_version = "{{getv "/ha/backend/consul/tls/min/version"}}"{{end}}
+  {{if exists "/ha/backend/consul/tls/ca/file"}}tls_ca_file = "{{getv "/ha/backend/consul/tls/ca/file"}}"{{end}}
+  {{if exists "/ha/backend/consul/tls/cert/file"}}tls_cert_file = "{{getv "/ha/backend/consul/tls/cert/file"}}"{{end}}
+  {{if exists "/ha/backend/consul/tls/key/file"}}tls_key_file = "{{getv "/ha/backend/consul/tls/key/file"}}"{{end}}
+  {{end}}
+
+  {{if eq (getv "/ha/backend") "etcd"}}# Etcd Backend Settings
+  {{if exists "/ha/backend/etcd/path"}}path = "{{getv "/ha/backend/etcd/path"}}"{{end}}
+  {{if exists "/ha/backend/etcd/address"}}address = "{{getv "/ha/backend/etcd/address"}}"{{end}}
+  {{if exists "/ha/backend/etcd/sync"}}sync = "{{getv "/ha/backend/etcd/sync"}}"{{end}}
+  {{if exists "/ha/backend/etcd/username"}}username = "{{getv "/ha/backend/etcd/username"}}"{{end}}
+  {{if exists "/ha/backend/etcd/password"}}password = "{{getv "/ha/backend/etcd/password"}}"{{end}}
+  {{if exists "/ha/backend/etcd/tls/ca/file"}}tls_ca_file = "{{getv "/ha/backend/etcd/tls/ca/file"}}"{{end}}
+  {{if exists "/ha/backend/etcd/tls/cert/file"}}tls_cert_file = "{{getv "/ha/backend/etcd/tls/cert/file"}}"{{end}}
+  {{if exists "/ha/backend/etcd/tls/key/file"}}tls_key_file = "{{getv "/ha/backend/etcd/tls/key/file"}}"{{end}}
+  {{end}}
+
+  {{if eq (getv "/ha/backend") "zookeeper"}}# Zookeeper Backend Settings
+  {{if exists "/ha/backend/zookeeper/auth/info"}}auth_info = "{{getv "/ha/backend/zookeeper/auth/info"}}"{{end}}
+  {{if exists "/ha/backend/zookeeper/znode/owner"}}znode_owner = "{{getv "/ha/backend/zookeeper/znode/owner"}}"{{end}}
+  {{end}}
+
+  {{if eq (getv "/ha/backend") "dynamodb"}}# Dynamodb Backend Settings
+  {{if exists "/ha/backend/dynamodb/table"}}table = "{{getv "/ha/backend/dynamodb/table"}}"{{end}}
+  {{if exists "/ha/backend/dynamodb/read/capacity"}}read_capacity = "{{getv "/ha/backend/dynamodb/read/capacity"}}"{{end}}
+  {{if exists "/ha/backend/dynamodb/write/capacity"}}write_capacity = "{{getv "/ha/backend/dynamodb/write/capacity"}}"{{end}}
+  {{if exists "/ha/backend/dynamodb/access/key"}}access_key = "{{getv "/ha/backend/dynamodb/access/key"}}"{{end}}
+  {{if exists "/ha/backend/dynamodb/secret/key"}}secret_key = "{{getv "/ha/backend/dynamodb/secret/key"}}"{{end}}
+  {{if exists "/ha/backend/dynamodb/session/token"}}session_token = "{{getv "/ha/backend/dynamodb/session/token"}}"{{end}}
+  {{if exists "/ha/backend/dynamodb/endpoint"}}endpoint = "{{getv "/ha/backend/dynamodb/endpoint"}}"{{end}}
+  {{if exists "/ha/backend/dynamodb/region"}}region = "{{getv "/ha/backend/dynamodb/region"}}"{{end}}
+  {{if exists "/ha/backend/dynamodb/max/parallel"}}max_parallel = "{{getv "/ha/backend/dynamodb/max/parallel"}}"{{end}}
+  {{if exists "/ha/backend/dynamodb/ha/enabled"}}ha_enabled = "{{getv "/ha/backend/dynamodb/ha/enabled"}}"{{end}}
+  {{if exists "/ha/backend/dynamodb/recovery/mode"}}recovery_mode = "{{getv "/ha/backend/dynamodb/recovery/mode"}}"{{end}}
+  {{end}}
+{{end}}
+
 {{if or (exists "/backend")}}
 backend "{{getv "/backend"}}" {
   {{if eq (getv "/backend") "consul" "etcd" "zookeeper" "dynamodb"}}
@@ -5,6 +59,7 @@ backend "{{getv "/backend"}}" {
   {{if exists "/cluster/addr"}}cluster_addr = "{{getv "/cluster/addr"}}"{{end}}
   {{if exists "/disable/clustering"}}disable_clustering = "{{getv "/disable/clustering"}}"{{end}}
   {{end}}
+
   {{if eq (getv "/backend") "consul"}}# Consul Backend Settings
   {{if exists "/backend/consul/path"}}path = "{{getv "/backend/consul/path"}}"{{end}}
   {{if exists "/backend/consul/address"}}address = "{{getv "/backend/consul/address"}}"{{end}}
@@ -30,7 +85,8 @@ backend "{{getv "/backend"}}" {
   {{if exists "/backend/etcd/password"}}password = "{{getv "/backend/etcd/password"}}"{{end}}
   {{if exists "/backend/etcd/tls/ca/file"}}tls_ca_file = "{{getv "/backend/etcd/tls/ca/file"}}"{{end}}
   {{if exists "/backend/etcd/tls/cert/file"}}tls_cert_file = "{{getv "/backend/etcd/tls/cert/file"}}"{{end}}
-  {{if exists "/backend/etcd/tls/key/file"}}tls_key_file = "{{getv "/backend/etcd/tls/key/file"}}"{{end}}{{end}}
+  {{if exists "/backend/etcd/tls/key/file"}}tls_key_file = "{{getv "/backend/etcd/tls/key/file"}}"{{end}}
+  {{end}}
 
   {{if eq (getv "/backend") "zookeeper"}}# Zookeeper Backend Settings
   {{if exists "/backend/zookeeper/auth/info"}}auth_info = "{{getv "/backend/zookeeper/auth/info"}}"{{end}}

@@ -171,8 +171,9 @@ using the `BACKEND` environment variable using any of the following values.
 #### High Availability Options
 
 All HA backends support the following options. These are discussed in much more
-detail in the [High Availability concepts
-page](https://www.vaultproject.io/docs/concepts/ha.html).
+detail in the [High Availability concept page](https://www.vaultproject.io/docs/concepts/ha.html).
+You can configure a separate HA backend by setting `VAULT_HA_BACKEND` and configuring any ha
+backend with `VAULT_HA_BACKEND_{backend}_{setting}` instead of `VAULT_BACKEND_{backend}_{setting}`.
 
   * `VAULT_REDIRECT_ADDR` (optional) - This is the address to advertise to other
     Vault servers in the cluster for client redirection.
