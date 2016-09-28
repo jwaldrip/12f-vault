@@ -1,22 +1,26 @@
-FROM cgswong/vault:latest
-MAINTAINER Oded Lazar <oded@senexx.com>
+FROM golang:latest
+MAINTAINER Jason Waldrip <jason@waldrip.net>
 
-# install curl
-RUN apk-install --no-cache curl
+# Install vault
+RUN go get -v github.com/hashicorp/vault
 
-# create a stub entrypoint
-RUN mkdir /entrypoint && \
-  echo '#!/bin/bash'  >> /entrypoint/bootstrap.sh && \
-  echo 'exec "$@"' >> /entrypoint/bootstrap.sh && \
-  chmod 755 /entrypoint/bootstrap.sh
+# Install/Configure confd
+RUN go get -v github.com/kelseyhightower/confd
+ADD confd /etc/confd
 
-ENTRYPOINT [ "/entrypoint/bootstrap.sh" ]
+# Entrypoint
+ADD entrypoint.sh entrypoint.sh
+RUN chmod +x entrypoint.sh
+ENTRYPOINT [ "./entrypoint.sh" ]
 
-ENV VAULT_LOG_LEVEL info
-ENV ETCD_ANNOUNCE_PATH vaults-unsealed
-ENV ETCD_ANNOUNCE 1
+# Expose Ports
+EXPOSE 8200
 
-RUN mkdir /vault
-ADD vault.hcl run.sh /vault/
+# Default Config
+VOLUME /vault
+ENV VAULT_BACKEND file
+ENV VAULT_HA true
+ENV VAULT_BACKEND_FILE_PATH /vault
 
-CMD [ "/vault/run.sh" ]
+# Command
+CMD [ "server" ]

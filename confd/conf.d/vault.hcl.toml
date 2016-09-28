@@ -1,0 +1,129 @@
+[template]
+src = "vault.hcl.tmpl"
+dest = "/usr/share/vault.hcl"
+prefix = "vault"
+keys = [
+  # Backend
+  "/backend",
+
+  # HA Backend
+  "/ha",
+  "/redirect/addr",
+  "/cluster/addr",
+  "/disable/clustering",
+
+  # Consul Backend
+  "/backend/consul/path",
+  "/backend/consul/address",
+  "/backend/consul/scheme",
+  "/backend/consul/check/timeout",
+  "/backend/consul/disable/registration",
+  "/backend/consul/service",
+  "/backend/consul/service/tags",
+  "/backend/consul/token",
+  "/backend/consul/max/parallel",
+  "/backend/consul/tls/skip/verify",
+  "/backend/consul/tls/min/version",
+  "/backend/consul/tls/ca/file",
+  "/backend/consul/tls/cert/file",
+  "/backend/consul/tls/key/file",
+
+  # Etcd Backend
+  "/backend/etcd/path",
+  "/backend/etcd/address",
+  "/backend/etcd/sync",
+  "/backend/etcd/username",
+  "/backend/etcd/password",
+  "/backend/etcd/password",
+  "/backend/etcd/tls/ca/file",
+  "/backend/etcd/tls/cert/file",
+  "/backend/etcd/tls/key/file",
+
+  # Zookeeper backend
+  "/backend/zookeeper/path",
+  "/backend/zookeeper/address",
+  "/backend/zookeeper/auth/info",
+  "/backend/zookeeper/znode/owner",
+
+  # Dynamodb backend
+  "/backend/dynamodb/table",
+  "/backend/dynamodb/read/capacity",
+  "/backend/dynamodb/write/capacity",
+  "/backend/dynamodb/access/key",
+  "/backend/dynamodb/secret/key",
+  "/backend/dynamodb/session/token",
+  "/backend/dynamodb/endpoint",
+  "/backend/dynamodb/region",
+  "/backend/dynamodb/max/parallel",
+  "/backend/dynamodb/ha/enabled",
+  "/backend/dynamodb/recovery/mode",
+
+  # S3 backend
+  "/backend/s3/bucket",
+  "/backend/s3/access/key",
+  "/backend/s3/secret/key",
+  "/backend/s3/session/token",
+  "/backend/s3/endpoint",
+  "/backend/s3/region",
+
+  # Azure
+  "/backend/azure/account/name",
+  "/backend/azure/account/key",
+  "/backend/azure/container",
+  "/backend/azure/max/parallel",
+
+  # Swift
+  "/backend/swift/container",
+  "/backend/swift/username",
+  "/backend/swift/password",
+  "/backend/swift/auth/url",
+  "/backend/swift/tenant",
+  "/backend/swift/max/parallel",
+
+  # MySQL
+  "/backend/mysql/username",
+  "/backend/mysql/password",
+  "/backend/mysql/address",
+  "/backend/mysql/database",
+  "/backend/mysql/table",
+  "/backend/mysql/tls/ca/file",
+
+  # Postgres SQL
+  "/backend/postgresql/connection/url",
+  "/backend/postgresql/table",
+
+  # File
+  "/backend/file/path",
+
+  # listener
+  "/listener/tcp/address",
+  "/listener/tcp/cluster/address",
+  "/listener/tcp/tls/disable",
+  "/listener/tcp/tls/cert/file",
+  "/listener/tcp/tls/key/file",
+  "/listener/tcp/tls/min/version",
+
+  # Disable Things
+  "/disable/cache",
+  "/disable/mlock",
+
+  # telemetry
+  "/telemetry/statsite/address",
+  "/telemetry/statsd/address",
+  "/telemetry/disable/hostname",
+  "/telemetry/circonus/api/token",
+  "/telemetry/circonus/api/app",
+  "/telemetry/circonus/api/url",
+  "/telemetry/circonus/submission/interval",
+  "/telemetry/circonus/submission/url",
+  "/telemetry/circonus/check/id",
+  "/telemetry/circonus/check/force/metric/activation",
+  "/telemetry/circonus/check/instance/id",
+  "/telemetry/circonus/check/search/tag",
+  "/telemetry/circonus/broker/id",
+  "/telemetry/circonus/broker/select/tag",
+
+  # TTLs
+  "/default/lease/ttl",
+  "/max/lease/ttl"
+]

@@ -1,0 +1,137 @@
+{{if exists "/backend"}}
+{{if exists "/ha"}}{{if and (eq (getv "/ha") "true") (eq (getv "/backend") "consul" "etcd" "zookeeper" "dynamodb")}}
+ha_backend "{{getv "/backend"}}" {
+  # HA Backed Settings
+  {{if exists "/redirect/addr"}}redirect_addr = "{{getv "/redirect/addr"}}"{{end}}
+  {{if exists "/cluster/addr"}}cluster_addr = "{{getv "/cluster/addr"}}"{{end}}
+  {{if exists "/disable/clustering"}}disable_clustering = "{{getv "/disable/clustering"}}"{{end}}
+{{else}}
+backend "{{getv "/backend"}}" {
+  {{if eq (getv "/backend") "consul" "etcd" "zookeeper" "dynamodb"}}disable_clustering = "true"{{end}}
+{{end}}
+{{else}}
+backend "{{getv "/backend"}}" {
+{{end}}
+  {{if eq (getv "/backend") "consul"}}# Consul Backend Settings
+  {{if exists "/backend/consul/path"}}path = "{{getv "/backend/consul/path"}}"{{end}}
+  {{if exists "/backend/consul/address"}}address = "{{getv "/backend/consul/address"}}"{{end}}
+  {{if exists "/backend/consul/scheme"}}scheme = "{{getv "/backend/consul/scheme"}}"{{end}}
+  {{if exists "/backend/consul/check/timeout"}}check_timeout = "{{getv "/backend/consul/check/timeout"}}"{{end}}
+  {{if exists "/backend/consul/disable/registration"}}disable_registration = "{{getv "/backend/consul/disable/registration"}}"{{end}}
+  {{if exists "/backend/consul/service"}}service = "{{getv "/backend/consul/service"}}"{{end}}
+  {{if exists "/backend/consul/service/tags"}}service_tags = "{{getv "/backend/consul/service/tags"}}"{{end}}
+  {{if exists "/backend/consul/token"}}token = "{{getv "/backend/consul/token"}}"{{end}}
+  {{if exists "/backend/consul/max/parallel"}}max_parallel = "{{getv "/backend/consul/max/parallel"}}"{{end}}
+  {{if exists "/backend/consul/tls/skip/verify"}}tls_skip_verify = "{{getv "/backend/consul/tls/skip/verify"}}"{{end}}
+  {{if exists "/backend/consul/tls/min/version"}}tls_min_version = "{{getv "/backend/consul/tls/min/version"}}"{{end}}
+  {{if exists "/backend/consul/tls/ca/file"}}tls_ca_file = "{{getv "/backend/consul/tls/ca/file"}}"{{end}}
+  {{if exists "/backend/consul/tls/cert/file"}}tls_cert_file = "{{getv "/backend/consul/tls/cert/file"}}"{{end}}
+  {{if exists "/backend/consul/tls/key/file"}}tls_key_file = "{{getv "/backend/consul/tls/key/file"}}"{{end}}
+  {{end}}
+
+  {{if eq (getv "/backend") "etcd"}}# Etcd Backend Settings
+  {{if exists "/backend/etcd/path"}}path = "{{getv "/backend/etcd/path"}}"{{end}}
+  {{if exists "/backend/etcd/address"}}address = "{{getv "/backend/etcd/address"}}"{{end}}
+  {{if exists "/backend/etcd/sync"}}sync = "{{getv "/backend/etcd/sync"}}"{{end}}
+  {{if exists "/backend/etcd/username"}}username = "{{getv "/backend/etcd/username"}}"{{end}}
+  {{if exists "/backend/etcd/password"}}password = "{{getv "/backend/etcd/password"}}"{{end}}
+  {{if exists "/backend/etcd/tls/ca/file"}}tls_ca_file = "{{getv "/backend/etcd/tls/ca/file"}}"{{end}}
+  {{if exists "/backend/etcd/tls/cert/file"}}tls_cert_file = "{{getv "/backend/etcd/tls/cert/file"}}"{{end}}
+  {{if exists "/backend/etcd/tls/key/file"}}tls_key_file = "{{getv "/backend/etcd/tls/key/file"}}"{{end}}{{end}}
+
+  {{if eq (getv "/backend") "zookeeper"}}# Zookeeper Backend Settings
+  {{if exists "/backend/zookeeper/auth/info"}}auth_info = "{{getv "/backend/zookeeper/auth/info"}}"{{end}}
+  {{if exists "/backend/zookeeper/znode/owner"}}znode_owner = "{{getv "/backend/zookeeper/znode/owner"}}"{{end}}
+  {{end}}
+
+  {{if eq (getv "/backend") "dynamodb"}}# Dynamodb Backend Settings
+  {{if exists "/backend/dynamodb/table"}}table = "{{getv "/backend/dynamodb/table"}}"{{end}}
+  {{if exists "/backend/dynamodb/read/capacity"}}read_capacity = "{{getv "/backend/dynamodb/read/capacity"}}"{{end}}
+  {{if exists "/backend/dynamodb/write/capacity"}}write_capacity = "{{getv "/backend/dynamodb/write/capacity"}}"{{end}}
+  {{if exists "/backend/dynamodb/access/key"}}access_key = "{{getv "/backend/dynamodb/access/key"}}"{{end}}
+  {{if exists "/backend/dynamodb/secret/key"}}secret_key = "{{getv "/backend/dynamodb/secret/key"}}"{{end}}
+  {{if exists "/backend/dynamodb/session/token"}}session_token = "{{getv "/backend/dynamodb/session/token"}}"{{end}}
+  {{if exists "/backend/dynamodb/endpoint"}}endpoint = "{{getv "/backend/dynamodb/endpoint"}}"{{end}}
+  {{if exists "/backend/dynamodb/region"}}region = "{{getv "/backend/dynamodb/region"}}"{{end}}
+  {{if exists "/backend/dynamodb/max/parallel"}}max_parallel = "{{getv "/backend/dynamodb/max/parallel"}}"{{end}}
+  {{if exists "/backend/dynamodb/ha/enabled"}}ha_enabled = "{{getv "/backend/dynamodb/ha/enabled"}}"{{end}}
+  {{if exists "/backend/dynamodb/recovery/mode"}}recovery_mode = "{{getv "/backend/dynamodb/recovery/mode"}}"{{end}}
+  {{end}}
+
+  {{if eq (getv "/backend") "s3"}}# S3 Backend Settings
+  {{if exists "/backend/s3/bucket"}}bucket = "{{getv "/backend/s3/bucket"}}"{{end}}
+  {{if exists "/backend/s3/access/key"}}access_key = "{{getv "/backend/s3/access/key"}}"{{end}}
+  {{if exists "/backend/s3/secret/key"}}secret_key = "{{getv "/backend/s3/secret/key"}}"{{end}}
+  {{if exists "/backend/s3/session/token"}}session_token = "{{getv "/backend/s3/session/token"}}"{{end}}
+  {{if exists "/backend/s3/endpoint"}}endpoint = "{{getv "/backend/s3/endpoint"}}"{{end}}
+  {{if exists "/backend/s3/region"}}region = "{{getv "/backend/s3/region"}}"{{end}}
+  {{end}}
+
+  {{if eq (getv "/backend") "azure"}}# Azure Backend Settings
+  {{if exists "/backend/azure/account/name"}}accountName = "{{getv "/backend/azure/account/name"}}"{{end}}
+  {{if exists "/backend/azure/account/key"}}accountKey = "{{getv "/backend/azure/account/key"}}"{{end}}
+  {{if exists "/backend/azure/container"}}container = "{{getv "/backend/azure/container"}}"{{end}}
+  {{if exists "/backend/azure/max/parallel"}}max_parallel = "{{getv "/backend/azure/max/parallel"}}"{{end}}
+  {{end}}
+
+  {{if eq (getv "/backend") "swift"}}# Swift (OpenStack) Backend Settings
+  {{if exists "/backend/swift/username"}}username = "{{getv "/backend/swift/username"}}"{{end}}
+  {{if exists "/backend/swift/password"}}password = "{{getv "/backend/swift/password"}}"{{end}}
+  {{if exists "/backend/swift/auth/url"}}auth_url = "{{getv "/backend/swift/auth/url"}}"{{end}}
+  {{if exists "/backend/swift/tenant"}}tenant = "{{getv "/backend/swift/tenant"}}"{{end}}
+  {{if exists "/backend/swift/max/parallel"}}max_parallel = "{{getv "/backend/swift/max/parallel"}}"{{end}}
+  {{end}}
+
+  {{if eq (getv "/backend") "mysql"}}# Mysql Backend Settings
+  {{if exists "/backend/mysql/username"}}username = "{{getv "/backend/mysql/username"}}"{{end}}
+  {{if exists "/backend/mysql/password"}}password = "{{getv "/backend/mysql/password"}}"{{end}}
+  {{if exists "/backend/mysql/address"}}address = "{{getv "/backend/mysql/address"}}"{{end}}
+  {{if exists "/backend/mysql/database"}}database = "{{getv "/backend/mysql/database"}}"{{end}}
+  {{if exists "/backend/mysql/table"}}table = "{{getv "/backend/mysql/table"}}"{{end}}
+  {{if exists "/backend/mysql/tls/ca/file"}}tls_ca_file = "{{getv "/backend/mysql/tls/ca/file"}}"{{end}}
+  {{end}}
+
+  {{if eq (getv "/backend") "postgresql"}}# Postgres Backend Settings
+  {{if exists "/backend/postgresql/connection/url"}}connection_url = "{{getv "/backend/postgresql/connection/url"}}"{{end}}
+  {{if exists "/backend/postgresql/table"}}table = "{{getv "/backend/postgresql/table"}}"{{end}}
+  {{end}}
+
+  {{if eq (getv "/backend") "inmem"}}# In Memory Backend Settings{{end}}
+
+  {{if eq (getv "/backend") "file"}}# File Backend Settings
+  {{if exists "/backend/file/path"}}path = "{{getv "/backend/file/path"}}"{{end}}
+  {{end}}
+}
+{{end}}
+
+listener "tcp" {
+  {{if exists "/listener/tcp/address"}}address = "{{getv "/listener/tcp/address"}}"{{end}}
+  {{if exists "/listener/tcp/cluster/address"}}cluster_address = "{{getv "/listener/tcp/cluster/address"}}"{{end}}
+  {{if exists "/listener/tcp/tls/disable"}}tls_disable = "{{getv "/listener/tcp/tls/disable"}}"{{end}}
+  {{if exists "/listener/tcp/tls/cert/file"}}tls_cert_file = "{{getv "/listener/tcp/tls/cert/file"}}"{{end}}
+  {{if exists "/listener/tcp/tls/key/file"}}tls_key_file = "{{getv "/listener/tcp/tls/key/file"}}"{{end}}
+  {{if exists "/listener/tcp/tls/min/version"}}tls_min_version = "{{getv "/listener/tcp/tls/min/version"}}"{{end}}
+}
+
+{{if exists "/disable/cache"}}disable_cache = {{getv "/disable/cache"}}{{end}}
+{{if exists "/disable/mlock"}}disable_mlock = {{getv "/disable/mlock"}}{{end}}
+
+telemetry {
+  {{if exists "/telemetry/statsite/address"}}statsite_address = "{{getv "/telemetry/statsite/address"}}"{{end}}
+  {{if exists "/telemetry/statsd/address"}}statsd_address = "{{getv "/telemetry/statsd/address"}}"{{end}}
+  {{if exists "/telemetry/disable/hostname"}}disable_hostname = "{{getv "/telemetry/disable/hostname"}}"{{end}}
+  {{if exists "/telemetry/circonus/api/token"}}circonus_api_token = "{{getv "/telemetry/circonus/api/token"}}"{{end}}
+  {{if exists "/telemetry/circonus/api/app"}}circonus_api_app = "{{getv "/telemetry/circonus/api/app"}}"{{end}}
+  {{if exists "/telemetry/circonus/api/url"}}circonus_api_url = "{{getv "/telemetry/circonus/api/url"}}"{{end}}
+  {{if exists "/telemetry/circonus/submission/interval"}}circonus_submission_interval = "{{getv "/telemetry/circonus/submission/interval"}}"{{end}}
+  {{if exists "/telemetry/circonus/submission/url"}}circonus_submission_url = "{{getv "/telemetry/circonus/submission/url"}}"{{end}}
+  {{if exists "/telemetry/circonus/check/id"}}circonus_check_id = "{{getv "/telemetry/circonus/check/id"}}"{{end}}
+  {{if exists "/telemetry/circonus/check/force/metric/activation"}}circonus_check_force_metric_activation = "{{getv "/telemetry/circonus/check/force/metric/activation"}}"{{end}}
+  {{if exists "/telemetry/circonus/check/instance/id"}}circonus_check_instance_id = "{{getv "/telemetry/circonus/check/instance/id"}}"{{end}}
+  {{if exists "/telemetry/circonus/check/search/tag"}}circonus_check_search_tag = "{{getv "/telemetry/circonus/check/search/tag"}}"{{end}}
+  {{if exists "/telemetry/circonus/broker/id"}}circonus_broker_id = "{{getv "/telemetry/circonus/broker/id"}}"{{end}}
+  {{if exists "/telemetry/circonus/broker/select/tag"}}circonus_broker_select_tag = "{{getv "/telemetry/circonus/broker/select/tag"}}"{{end}}
+}
+
+{{if exists "/default/lease/tll"}}default_lease_ttl = "{{getv "/default/lease/ttl"}}"{{end}}
+{{if exists "/max/lease/tll"}}max_lease_ttl = "{{getv "/max/lease/ttl"}}"{{end}}
