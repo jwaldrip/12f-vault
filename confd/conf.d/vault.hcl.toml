@@ -7,7 +7,6 @@ keys = [
   "/backend",
 
   # HA Backend
-  "/ha",
   "/redirect/addr",
   "/cluster/addr",
   "/disable/clustering",

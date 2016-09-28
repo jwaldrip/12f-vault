@@ -1,17 +1,10 @@
-{{if exists "/backend"}}
-{{if exists "/ha"}}{{if and (eq (getv "/ha") "true") (eq (getv "/backend") "consul" "etcd" "zookeeper" "dynamodb")}}
-ha_backend "{{getv "/backend"}}" {
-  # HA Backed Settings
+{{if or (exists "/backend")}}
+backend "{{getv "/backend"}}" {
+  {{if eq (getv "/backend") "consul" "etcd" "zookeeper" "dynamodb"}}
   {{if exists "/redirect/addr"}}redirect_addr = "{{getv "/redirect/addr"}}"{{end}}
   {{if exists "/cluster/addr"}}cluster_addr = "{{getv "/cluster/addr"}}"{{end}}
   {{if exists "/disable/clustering"}}disable_clustering = "{{getv "/disable/clustering"}}"{{end}}
-{{else}}
-backend "{{getv "/backend"}}" {
-  {{if eq (getv "/backend") "consul" "etcd" "zookeeper" "dynamodb"}}disable_clustering = "true"{{end}}
-{{end}}
-{{else}}
-backend "{{getv "/backend"}}" {
-{{end}}
+  {{end}}
   {{if eq (getv "/backend") "consul"}}# Consul Backend Settings
   {{if exists "/backend/consul/path"}}path = "{{getv "/backend/consul/path"}}"{{end}}
   {{if exists "/backend/consul/address"}}address = "{{getv "/backend/consul/address"}}"{{end}}
